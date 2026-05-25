@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gabut jir jadi bikin beginian</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+            background: #000;
+            transition: background 0.8s ease;
+        }
+
+        .ambilight {
+            position: fixed;
+            top: -50px; left: -50px;
+            width: calc(100% + 100px);
+            height: calc(100% + 100px);
+            z-index: 0;
+            filter: blur(60px);
+            opacity: 0.7;
+            transition: background 1s ease;
+            pointer-events: none;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--dur) ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+            position: relative;
+        }
+
+        .gift-box {
+            font-size: 120px;
+            animation: bounce 1s infinite;
+            cursor: pointer;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8));
+            transition: transform 0.3s;
+        }
+        .gift-box:hover { transform: scale(1.15); }
+
+        .message { color: white; margin-top: 20px; text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        .message h1 { font-size: 1.8em; }
+
+        .hidden-message {
+            display: none;
+            animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .video-container {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid rgba(255,255,255,0.6);
+            box-shadow: 0 0 60px rgba(255,255,255,0.2);
+            background: black;
+            animation: floatVideo 6s ease-in-out infinite;
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes floatVideo {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(12px, -8px) scale(1.03); }
+            50% { transform: translate(-8px, 8px) scale(0.97); }
+            75% { transform: translate(-12px, -4px) scale(1.02); }
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .video-glow {
+            position: fixed;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.6;
+            z-index: 5;
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
+        .scuba-cat {
+            position: fixed;
+            z-index: 8;
+            pointer-events: none;
+            font-size: 2.2em;
+            animation: scubaDance 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scubaDance {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(10px, -5px) rotate(15deg); }
+            40% { transform: translate(-15px, 0) rotate(-15deg); }
+            60% { transform: translate(10px, 5px) rotate(10deg); }
+            80% { transform: translate(-15px, -5px) rotate(-10deg); }
+        }
+
+        .scuba-hand {
+            position: fixed;
+            z-index: 7;
+            pointer-events: none;
+            font-size: 1.6em;
+            animation: scubaHand 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scubaHand {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -10px) rotate(30deg); }
+            50% { transform: translate(-5px, 5px) rotate(-15deg); }
+            75% { transform: translate(25px, -5px) rotate(20deg); }
+        }
+
+        .hidden-message h1 {
+            color: white;
+            font-size: 2.2em;
+            text-shadow: 0 0 30px rgba(255,255,255,0.8);
+            margin-bottom: 5px;
+            animation: glowText 2s ease-in-out infinite;
+        }
+        @keyframes glowText {
+            0%, 100% { text-shadow: 0 0 30px rgba(255,255,255,0.8); }
+            50% { text-shadow: 0 0 50px rgba(255,255,255,1); }
+        }
+
+        .hidden-message p {
+            color: #e0d5ff;
+            font-size: 1.1em;
+            margin: 8px 0;
+            line-height: 1.5;
+            text-shadow: 0 0 10px rgba(255,255,255,0.4);
+        }
+
+        .emot-kecil {
+            font-size: 0.9em;
+            animation: bounceEmot 0.8s infinite;
+            display: inline-block;
+        }
+        @keyframes bounceEmot {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .btn {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 32px;
+            font-size: 1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 12px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.25);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes popIn {
+            from { transform: scale(0) rotate(-10deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .gift-box { font-size: 80px; }
+            .message h1 { font-size: 1.3em; }
+            .video-container { width: 240px; height: 240px; }
+            .video-glow { width: 260px; height: 260px; }
+            .hidden-message h1 { font-size: 1.6em; }
+            .scuba-cat { font-size: 1.6em; }
+            .scuba-hand { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambilight" id="ambilight"></div>
+    <div class="stars" id="starsContainer"></div>
+    <div class="video-glow" id="videoGlow"></div>
+    <div id="scubaCatsContainer"></div>
+
+    <audio id="kicauAudio" loop>
+        <source src="https://github.com/ridwansyah4379-commits/Audio-kicau-mania/raw/refs/heads/main/videoplayback%20(1).m4a" type="audio/mp4">
+    </audio>
+
+    <div class="container">
+        <div id="initialView">
+            <div class="gift-box" onclick="bukaHadiah()">🎁</div>
+            <div class="message">
+                <h1>gabut jir jadi bikin beginian 😂</h1>
+            </div>
+        </div>
+
+        <div class="hidden-message" id="revealView">
+            <div class="video-container" id="videoBox">
+                <video autoplay loop muted playsinline id="mainVideo">
+                    <source src="https://github.com/ridwansyah4379-commits/Video-kicau-mania-scuba-dance/raw/refs/heads/main/videoplayback%20(1).mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <h1>🤿 SCUBA CAT! 🐱</h1>
+            <p>
+                aku mulai kecanduan kicau mania jir 🤗 <br>
+                kucingnya <b>ngeselin</b> tapi <b>nagih</b> 😭💕 <br>
+                Diliat terus gak bosen-bosen 🕺🐱
+            </p>
+            <span class="emot-kecil">😜</span>
+            <span class="emot-kecil">🤪</span>
+            <span class="emot-kecil">🥰</span>
+            <span class="emot-kecil">🤤</span>
+            <br>
+            <button class="btn" onclick="ulangi()">🔄 Pencet Lagi Deh</button>
+        </div>
+    </div>
+
+    <script>
+        function buatBintang() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--dur', (Math.random() * 3 + 3) + 's');
+                container.appendChild(star);
+            }
+        }
+
+        function buatScubaCats() {
+            const container = document.getElementById('scubaCatsContainer');
+            const pasangan = [
+                { cat: '🐱', hand: '🤿' },
+                { cat: '😺', hand: '✋' },
+                { cat: '😸', hand: '🤿' },
+                { cat: '😻', hand: '✋' },
+                { cat: '😼', hand: '🤿' },
+                { cat: '😽', hand: '✋' },
+                { cat: '🙀', hand: '🤿' },
+                { cat: '😹', hand: '✋' },
+            ];
+
+            pasangan.forEach((p, i) => {
+                const cat = document.createElement('span');
+                cat.className = 'scuba-cat';
+                cat.textContent = p.cat;
+                cat.style.animationDelay = (i * 0.2) + 's';
+                cat.style.animationDuration = (1.5 + Math.random() * 0.5) + 's';
+                container.appendChild(cat);
+
+                const hand = document.createElement('span');
+                hand.className = 'scuba-hand';
+                hand.textContent = p.hand;
+                hand.style.animationDelay = (i * 0.2) + 's';
+                hand.style.animationDuration = (1.5 + Math.random() * 0.5) + 's';
+                container.appendChild(hand);
+            });
+        }
+
+        function updateScubaPosition() {
+            const videoBox = document.getElementById('videoBox');
+            if (!videoBox || videoBox.style.display === 'none') return;
+            
+            const rect = videoBox.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const cats = document.querySelectorAll('.scuba-cat');
+            const hands = document.querySelectorAll('.scuba-hand');
+            
+            cats.forEach((cat, i) => {
+                const angle = (i / cats.length) * Math.PI * 2;
+                const distance = 190;
+                const x = centerX + Math.cos(angle) * distance;
+                const y = centerY + Math.sin(angle) * distance;
+                cat.style.left = x + 'px';
+                cat.style.top = y + 'px';
+            });
+
+            hands.forEach((hand, i) => {
+                const angle = (i / hands.length) * Math.PI * 2 + 0.3;
+                const distance = 200;
+                const x = centerX + Math.cos(angle) * distance;
+                const y = centerY + Math.sin(angle) * distance;
+                hand.style.left = x + 'px';
+                hand.style.top = y + 'px';
+            });
+        }
+
+        setInterval(updateScubaPosition, 2000);
+        window.addEventListener('resize', updateScubaPosition);
+
+        const paletWarna = [
+            ['#ff6b6b', '#ee5a24', '#f0932b'],
+            ['#a855f7', '#6366f1', '#8b5cf6'],
+            ['#06b6d4', '#3b82f6', '#0ea5e9'],
+            ['#ec4899', '#f43f5e', '#d946ef'],
+            ['#10b981', '#14b8a6', '#22c55e'],
+            ['#f59e0b', '#eab308', '#f97316'],
+            ['#ef4444', '#dc2626', '#b91c1c'],
+            ['#8b5cf6', '#7c3aed', '#a78bfa'],
+        ];
+
+        let warnaIndex = 0;
+
+        function gantiWarnaAmbilight() {
+            const ambilight = document.getElementById('ambilight');
+            const videoGlow = document.getElementById('videoGlow');
+            const warna = paletWarna[warnaIndex % paletWarna.length];
+            ambilight.style.background = `radial-gradient(ellipse at center, ${warna[0]}44 0%, ${warna[1]}22 50%, transparent 70%)`;
+            videoGlow.style.background = `radial-gradient(circle, ${warna[0]}aa 0%, ${warna[2]}44 40%, transparent 70%)`;
+            warnaIndex++;
+        }
+
+        function updateGlowPosition() {
+            const videoBox = document.getElementById('videoBox');
+            const videoGlow = document.getElementById('videoGlow');
+            if (!videoBox || videoBox.style.display === 'none') {
+                videoGlow.style.display = 'none';
+                return;
+            }
+            videoGlow.style.display = 'block';
+            const rect = videoBox.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            videoGlow.style.left = (centerX - 160) + 'px';
+            videoGlow.style.top = (centerY - 160) + 'px';
+        }
+
+        setInterval(updateGlowPosition, 50);
+        setInterval(gantiWarnaAmbilight, 1500);
+        window.addEventListener('resize', updateGlowPosition);
+        window.addEventListener('scroll', updateGlowPosition);
+
+        function bukaHadiah() {
+            const audio = document.getElementById('kicauAudio');
+            audio.play().catch(() => {});
+
+            document.getElementById('initialView').style.display = 'none';
+            document.getElementById('revealView').style.display = 'block';
+            document.title = '🤿 SCUBA DANCE GAS! 🐱';
+
+            const video = document.getElementById('mainVideo');
+            if (video) video.play().catch(() => {});
+
+            document.getElementById('videoGlow').style.display = 'block';
+            document.getElementById('scubaCatsContainer').style.display = 'block';
+            setTimeout(updateGlowPosition, 100);
+            setTimeout(updateScubaPosition, 200);
+            gantiWarnaAmbilight();
+        }
+
+        function ulangi() {
+            const video = document.getElementById('mainVideo');
+            if (video) { video.pause(); video.currentTime = 0; }
+
+            document.getElementById('initialView').style.display = 'block';
+            document.getElementById('revealView').style.display = 'none';
+            document.title = 'gabut jir jadi bikin beginian';
+            document.getElementById('videoGlow').style.display = 'none';
+            document.getElementById('scubaCatsContainer').style.display = 'none';
+        }
+
+        buatBintang();
+        buatScubaCats();
+        document.getElementById('videoGlow').style.display = 'none';
+        document.getElementById('scubaCatsContainer').style.display = 'none';
+    </script>
+</body>
+</html>
